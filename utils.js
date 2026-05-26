@@ -1,18 +1,18 @@
 const { EmbedBuilder } = require('discord.js');
 
-function buildEmbed({ title, date, description, location, bring, color, announcedBy }) {
+function buildEmbed({ title, date, description, location, bring, color }) {
   const embed = new EmbedBuilder()
     .setColor(color ?? 0x5865f2)
-    .setTitle(`📅  ${title}`)
-    .setDescription(`## ${description}\n​`)
-    .addFields({ name: '🗓️  When', value: `**${date}**`, inline: !!location });
+    .setTitle(`╔═══ 📅  ${title.toUpperCase()}  ═══╗`)
+    .setDescription(`### ${description}\n​`);
 
-  if (location) embed.addFields({ name: '📍  Location', value: `**${location}**`, inline: true });
+  const fields = [];
+  fields.push({ name: '🗓️  Date & Time', value: `\`\`\`${date}\`\`\``, inline: !!location });
+  if (location) fields.push({ name: '📍  Location', value: `\`\`\`${location}\`\`\``, inline: true });
+  if (bring) fields.push({ name: '​', value: '​', inline: false });
+  if (bring) fields.push({ name: '🎒  What to Bring', value: `\`\`\`${bring}\`\`\``, inline: false });
 
-  if (bring) embed.addFields({ name: '​', value: '​' });
-  if (bring) embed.addFields({ name: '🎒  What to Bring', value: `**${bring}**` });
-
-  embed.setFooter({ text: `📣 Announced by ${announcedBy}` }).setTimestamp();
+  embed.addFields(fields);
   return embed;
 }
 
